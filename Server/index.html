@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<title>WSWW</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+<script>
+	var genre = "";
+	var year = "";
+	var rating = "";
+	function updateGenre(newg) {
+		genre = newg;
+	}
+	function updateYear(newy) {
+		year = newy;
+	}
+	function updateRating(newr) {
+		rating = newr;
+	}
+	function searchMovies() {
+		document.body.style.cursor = "progress";
+		if ((genre != "") || (year != "") || (rating != "")) { //sends if at least one field is present
+			xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", "getmovie.php?genre="+genre+"&year="+year+"&rating="+rating+"&random="+0, true);
+			xmlhttp.send();
+			xmlhttp.onreadystatechange = function() {document.getElementById("maindata").innerHTML = this.responseText;
+				document.body.style.cursor = "default";
+			}
+		}
+		else {
+			document.body.style.cursor = "default";
+			alert("At least one field must be filled!");
+		}
+	}
+	function searchMoviesR() {
+		document.body.style.cursor = "progress";
+		xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", "getmovie.php?genre="+genre+"&year="+year+"&rating="+rating+"&random="+1, true);
+		xmlhttp.send();
+		xmlhttp.onreadystatechange = function() {document.getElementById("maindata").innerHTML = this.responseText;
+			document.body.style.cursor = "default";	}
+	}
+</script>
+
+<body>
+
+<div class = "tablist">
+<h1>What Should We Watch</h1>
+	Genre:
+	<select class = "selectBar" onchange="updateGenre(this.value)">
+		<option value=""></option>
+		<option value="Action">Action</option>
+		<option value="Adult">Adult</option>
+		<option value="Adventure">Adventure</option>
+		<option value="Animation">Animation</option>
+		<option value="Biography">Biography</option>
+		<option value="Comedy">Comedy</option>
+		<option value="Crime">Crime</option>
+		<option value="Documentary">Documentary</option>
+		<option value="Drama">Drama</option>
+		<option value="Family">Family</option>
+		<option value="Fantasy">Fantasy</option>
+		<option value="Film-Noir">Film-Noir</option>
+		<option value="Game-Show">Game-Show</option>
+		<option value="History">History</option>
+		<option value="Horror">Horror</option>
+		<option value="Music">Music</option>
+		<option value="Musical">Musical</option>
+		<option value="Mystery">Mystery</option>
+		<option value="News">News</option>
+		<option value="N">None</option>
+		<option value="Reality-TV">Reality-TV</option>
+		<option value="Romance">Romance</option>
+		<option value="Sci-Fi">Sci-Fi</option>
+		<option value="Short">Short</option>
+		<option value="Sport">Sport</option>
+		<option value="Talk-Show">Talk-Show</option>
+		<option value="Thriller">Thriller</option>
+		<option value="War">War</option>
+		<option value="Western">Western</option>
+	</select>
+	<br/>
+	<br/>
+	Year:
+	<input type = "text" class = "searchbar" onchange = "updateYear(this.value)">
+	<br/>
+	<br/>
+	Rating:
+	<input type = "text" class = "searchbar" onchange = "updateRating(this.value)">
+	<br/>
+	<br/>
+	<button type = "button" onclick = "searchMovies()">All Movies</button>
+	<button type = "button" onclick = "searchMoviesR()">Random Movie</button>
+</div>
+<div class = "contentContainer" id = "maindata">
+</div>
+</body>
+</html>
